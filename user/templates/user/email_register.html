@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ title|default:'个人博客' }}通知邮件</title>
+</head>
+<body>
+<table style="width: 600px; border: 1px solid #ddd; border-radius: 3px; color: #555; font-family: 'Helvetica Neue Regular',Helvetica,Arial,Tahoma,'Microsoft YaHei','San Francisco','微软雅黑',' Hiragino Sans GB',STHeitiSC-Light; font-size: 12px; height: auto; margin: auto; overflow: hidden; text-align: left; word-break: break-all; word-wrap: break-word;"
+       cellspacing="0" cellpadding="0" border="0">
+    <tbody style="margin: 0; padding: 0;">
+    <tr style="background-color: #393D49; height: 60px; margin: 0; padding: 0;">
+        <td style="margin: 0; padding: 0;">
+            <div style="color: #5EB576; margin: 0; margin-left: 30px; padding: 0;">
+                <a style="font-size: 14px; margin: 0; padding: 0; color: #5EB576; text-decoration: none;"
+                   href="{{ site_url|default:'#' }}" target="_blank" rel="noopener">{{ site_name|default:'个人博客' }}——{{ title|default:'这是一封注册激活' }}通知邮件</a>
+            </div>
+        </td>
+    </tr>
+    <tr style="margin: 0; padding: 0;">
+        <td style="margin: 0; padding: 30px;">
+            <p style="line-height: 20px; margin: 0; margin-bottom: 10px; padding: 0;"> Hi，
+                <em style="padding:0;font-weight:700;color:#6e6e6e;font-size:16px">{{ receiver.username|default:'qinzhi' }}</em>,你好</p>
+            <p style="color:#6e6e6e;font-size:13px;line-height:24px">欢迎您注册<em
+                    style="padding:0;font-weight:700;color:#6e6e6e;font-size:16px">[{{ site_name|default:'个人博客' }}博客]</em>，请根据下面的信息完成激活,登陆后如有密码修改需要，可以修改密码！
+            </p>
+            <table style="width:100%;border-top:1px solid #eee;border-left:1px solid #eee;color:#6e6e6e;font-weight:normal;"
+                   cellspacing="0" cellpadding="0" border="0">
+                <thead>
+                <tr>
+                    <th colspan="2"
+                        style="padding:10px 0;border-right:1px solid #eee;border-bottom:1px solid #eee;text-align:center;background:#f2f2f2;font-weight:700;font-size:16px">
+                        您的注册信息
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td style="padding:10px 0;border-right:1px solid #eee;border-bottom:1px solid #eee;text-align:center;width:100px">
+                        用户名
+                    </td>
+                    <td style="padding:10px 20px 10px 30px;border-right:1px solid #eee;border-bottom:1px solid #eee;line-height:30px">
+                        {{ receiver.username|default:'qinzhi' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 0;border-right:1px solid #eee;border-bottom:1px solid #eee;text-align:center;width:100px">
+                        邮箱
+                    </td>
+                    <td style="padding:10px 20px 10px 30px;border-right:1px solid #eee;border-bottom:1px solid #eee;line-height:30px">
+                        {{ receiver.email|default:'13457693955@139.com' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 0;border-right:1px solid #eee;border-bottom:1px solid #eee;text-align:center">
+                        密码
+                    </td>
+                    <td style="padding:10px 20px 10px 30px;border-right:1px solid #eee;border-bottom:1px solid #eee;line-height:30px">
+                        {{ password|default:'123456' }}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="padding:10px 0;border-right:1px solid #eee;border-bottom:1px solid #eee;text-align:center;width:100px">
+                        激活方式
+                    </td>
+                    <td style="padding:10px 20px 10px 30px;border-right:1px solid #eee;border-bottom:1px solid #eee;line-height:30px">
+                        <a href="{{ url|default:'#' }}"
+                           style="background-color: #009E94; color: #fff; display: inline-block; height: 32px; line-height: 32px; margin: 0 15px 0 0; padding: 0 15px; text-decoration: none;"
+                           target="_blank" rel="noopener">立即激活邮箱</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <p style="line-height: 20px; margin-top: 20px; padding: 10px; background-color: #f2f2f2; font-size: 12px;">
+                如果该邮件不是由你本人操作，请勿进行激活！否则你的邮箱将会被他人绑定。 </p>
+        </td>
+    </tr>
+    <tr style="background-color: #fafafa; color: #999; height: 35px; margin: 0; padding: 0; text-align: center;">
+        <td style="margin: 0; padding: 0;">系统邮件，请勿直接回复 | {% now "Y/m/d H:m:s" %}</td>
+    </tr>
+    </tbody>
+</table>
+</div>
+</body>
+</html>

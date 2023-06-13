@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "article/base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章详情</title>
+</head>
+<body>
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    文章详情
+{% endblock title %}
+
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+    <!-- 文章详情 -->
+    <div class="container">
+        <div class="row">
+        <div class="col-lg-10">
+        <!--    <div class="row">-->
+        <!-- 标题及作者 -->
+        <h1 class="col-12 mt-4 mb-4">{{ article.title }}</h1>
+        <div class="col-12 alert alert-primary">
+            <div class="my-2 my-sm-0 ml-lg-0">
+                <a>作者：{{ article.author }}</a>
+
+                <!-- 只有作者可以修改文章 -->
+                {% if user == article.author %}
+                <a href="#" data-bs-toggle="modal" data-bs-target="#myModal">删除文章</a>
+                <!-- 新增一个隐藏的表单 -->
+                <form
+                        style="display:none;"
+                        id="safe_delete"
+                        action="{% url 'article:delete' article.id %}"
+                        method="POST"
+                >
+                    {% csrf_token %}
+                    <button type="submit">发送</button>
+                </form>
+                <a href="{% url 'article:update' article.id %}">编辑文章</a>
+                {% endif %}
+                <!-- 增加阅读量和图标 -->
+                <small class="col align-self-end" style="color: gray;">
+                            <span>
+                                <i class="fas fa-clock" style="color: pink;"></i>
+                                {{ article.created|date:'Y-m-d H:i:s' }}&nbsp;&nbsp;
+                            </span>
+                            <span>
+                                <i class="fas fa-comments" style="color: yellowgreen;"></i>
+                                <!-- 修改为评论的计数 -->
+                                {{ article.comments.count }}&nbsp;&nbsp;
+                            </span>
+                            <span class="fas fa-eye" >
+                            {{ article.total_views }}
+                            </span>
+                            &nbsp
+                            <a>文章类型: {{article.article_type}}</a>
+                </small>
+            </div>
+        </div>
+
+{#        <br>#}
+        <!-- 文章正文 -->
+        <div class="col-12">
+            <p>{{ article.body |safe }}</p>
+        </div>
+        <!--    </div>-->
+        </div>
+        <!-- 文章目录生成开始 -->
+        <div class="col-lg-2">
+            {% block toc %}
+                {% if article.toc %}
+                    <div class="widget widget-content">
+                    <br><br><br><br>
+                        <h3 class="my-2 my-sm-0 ml-lg-0">文章目录</h3>
+                        {{ article.toc|safe }}
+                    </div>
+                {% endif %}
+            {% endblock toc %}
+        </div>
+        <!-- 文章目录生成结束 -->
+        </div>
+    </div>
+<!-- 模态框 -->
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
+            <div class="modal-content">
+                <!-- 模态框头部 -->
+                <div class="modal-header">
+                    <h4 class="modal-title">确认删除</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <!-- 模态框主体 -->
+                <div class="modal-body">
+                    确认删除文章？
+                </div>
+                <!-- 模态框底部 -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="confirm_delete()">
+                        确定
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        // 删除文章的函数
+        function confirm_delete() {
+            document.getElementById("safe_delete").submit();
+        }
+    </script>
+    <div class="container">
+    <div class="col-10">
+        <!-- 发表评论 -->
+        <hr>
+        {% if user.is_authenticated %}
+            <div>
+                <form
+                        action="{% url 'comment:post_comment' article.id %}"
+                        method="POST"
+                >
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="body">
+                            <strong>
+                                我也要评论：
+                            </strong>
+                        </label>
+                        <textarea
+                                type="text"
+                                class="form-control"
+                                id="body"
+                                name="body"
+                                rows="2"></textarea>
+                    </div>
+                    <!-- 提交按钮 -->
+                    <button type="submit" class="btn btn-outline-dark my-2 my-sm-0 ml-lg-0">评论</button>
+                    <button type="button" class="btn btn-outline-dark my-2 my-sm-0 ml-lg-0" id="export-btn">导出文章</button>
+                </form>
+                <!-- 分享功能-->
+                       <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone"
+                                                                                          data-cmd="qzone"></a><a
+                            href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq" data-cmd="tqq"></a><a
+                            href="#" class="bds_renren" data-cmd="renren"></a><a href="#" class="bds_weixin" data-cmd="weixin"></a>
+                        </div>
+        <script>window._bd_share_config = {
+            "common": {
+                "bdSnsKey": {},
+                "bdText": "",
+                "bdMini": "2",
+                "bdPic": "",
+                "bdStyle": "0",
+                "bdSize": "16"
+            },
+            "share": {},
+            "image": {"viewList": ["qzone", "tsina", "tqq", "renren", "weixin"], "viewText": "分享到：", "viewSize": "16"},
+            "selectShare": {"bdContainerClass": null, "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]}
+        };
+        with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+        <!--分享功能结束-->
+            </div>
+            <br>
+        {% else %}
+            <h5 class="col-12 ">
+                <a href="{% url 'user:login' %}" class="btn btn-outline-success my-2 my-sm-0 ml-lg-0" >请登录后评论</a>
+            </h5>
+        {% endif %}
+        <!-- 显示评论 -->
+        <h4>共有{{ comments.count }}条评论 </h4>
+        <div>
+            {% for comment in comments %}
+                <hr>
+                <p>
+                    <strong style="color: pink">
+                        {{ comment.user }}
+                    </strong> 于
+                    <span style="color: green">
+                    {{ comment.created|date:"Y-m-d H:i:s" }}
+                </span> 时说：
+                </p>
+                <pre style="font-family: inherit; font-size: 1em;">
+                {{ comment.body }}</pre>
+            {% endfor %}
+        </div>
+    </div>
+    </div>
+    <script>
+    document.getElementById('export-btn').addEventListener('click', function() {
+        // 发送GET请求到后端视图函数 export_article
+        fetch('{% url "article:export" article.id %}')
+        .then(response => response.blob())
+        .then(blob => {
+            // 创建一个虚拟链接，用于下载文件
+            var url = window.URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = "{{ article.title }}.md";
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+        });
+    });
+    </script>
+{% endblock content %}
+</body>
+</html>

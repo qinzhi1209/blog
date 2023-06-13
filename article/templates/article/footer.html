@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div>
+        <br><br><br>
+    </div>
+    <footer class="py-3 bg-dark fixed-bottom">
+        <div class="container">
+            <p class="m-0 text-center text-white">Autumn &copy; 博客 </p>
+            <!-- 显示当前时间 -->
+            <p id="current-time" class="m-0 text-center text-white"></p>
+            {# <p id="uptime" class="m-0 text-center text-white"></p> #}
+            <!-- 回到顶端按钮 -->
+            <a href="#" class="back-to-top">回到顶端</a>
+        </div>
+    </footer>
+    <script>
+        // 记录网站启动时间
+        const startTime = new Date();
+
+        // 更新当前时间和启动时间的差值
+        function updateUptime() {
+            // 获取当前时间
+            const now = new Date();
+            // 计算时间差（单位：毫秒）
+            const timeDiff = now.getTime() - startTime.getTime();
+            // 将时间差转换为天、小时、分钟和秒钟的格式
+            const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
+            // 将时间差格式化为字符串
+            const uptime = `本博客已运行 ${days} 天 ${hours} 小时 ${minutes} 分钟 ${seconds} 秒`;
+            // 在页面上展示时间差
+            document.getElementById('uptime').textContent = uptime;
+        }
+
+        // 每隔一秒更新一次时间差
+        setInterval(updateUptime, 1000);
+
+        // 显示当前时间
+        function showCurrentTime() {
+            // 获取当前时间
+            const now = new Date();
+            // 将当前时间格式化为字符串
+            const formattedTime = now.toLocaleString();
+            // 将时间展示在页面上
+            document.getElementById('current-time').textContent = formattedTime;
+        }
+
+        // 每秒钟更新一次当前时间
+        setInterval(showCurrentTime, 1000);
+    </script>
+<script>
+    var backToTopBtn = document.getElementById("back-to-top-btn");
+
+// 当用户向下滚动超过 20px 时，显示返回顶部按钮
+window.onscroll = function() {
+    if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+        backToTopBtn.style.display = "block";
+    } else {
+        backToTopBtn.style.display = "none";
+    }
+};
+
+// 当用户点击返回顶部按钮时，将页面滚动到顶部
+backToTopBtn.onclick = function() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+};
+</script>
+</body>
+</html>

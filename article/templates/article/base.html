@@ -1,0 +1,64 @@
+<!--    载入静态文件-->
+<!DOCTYPE html>
+{% load static %}
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <title>Autumn博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <script src="{% static 'article/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'article/js/jquery.form.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'article/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'article/css/bootstrap.css' %}">
+    <script src="{% static 'article/js/bootstrap.bundle.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'article/css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'article/css/hover-min.css' %}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+    crossorigin="anonymous">
+    <script src="{% static 'article/js/blog.js' %}"></script>
+    {#  有的页面有自己要加载的静态文件   #}
+    {% block other_static_file %}
+    {% endblock %}
+</head>
+<body class="animated">
+{#头部内容#}
+<header>
+    {% include 'article/header.html' %}
+</header>
+<!-- 预留具体页面的位置 -->
+{% block content %}
+
+{% endblock content %}
+
+
+{#页面主内容#}
+<main role="main">
+
+    {% block main %}
+    {% endblock %}
+
+</main>
+{#底部内容#}
+ <footer>
+ {% include 'article/footer.html' %}
+ </footer>
+
+{# 页面动态桃花背景sakura.js #}
+<script type="text/javascript" src="{% static 'article/js/sakura.js' %}"></script>
+<script type="text/javascript" src="{% static 'article/js/commentTyping.js' %}"></script>
+<script src="{% static 'article/js/sweetalert.js' %}"></script>
+<script src="{% static 'article/js/zh-cn-tw.js' %}"></script>
+<!-- bootstrap.js 依赖popper.js，因此在这里引入 -->
+<!--
+    popper.js 采用 cdn 远程引入，意思是你不需要把它下载到本地。
+    在实际的开发中推荐静态文件尽量都使用 cdn 的形式。
+    教程采用本地引入是为了让读者了解静态文件本地部署的流程。
+-->
+<script src="https://unpkg.com/@popperjs/core@2"></script>
+
+<!-- 引入bootstrap的js文件 -->
+<script src="{% static 'article/js/bootstrap.min.js' %}"></script>
+    {% include 'article/back_to_top_func.html' %}
+</body>
+</html>

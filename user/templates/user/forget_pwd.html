@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+{% extends "article/base.html" %} {% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>重置密码</title>
+</head>
+<body>
+{% block title %}密码重置{% endblock %}
+{% block main %}
+    <!--主内容-start--->
+    <div class="container">
+        <form class="form-signin bg-white" method="post" action="{% url 'user:forget_pwd' %}">
+            <div class="text-center mb-4">
+                <img class="mb-2" src="{% static 'user/images/favicon.png' %}" alt="" width="100" height="100">
+                <h1 class="h3 mb-3 font-weight-normal">密码重置</h1>
+                <div class="rollContainer">
+                    <p class="rollBlock">走的路多了，闭上眼都是风景。</p>
+                </div>
+                <div class="login_error">
+                    {% for k,v in reset_form.errors.items %}
+                        {{ v }}
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="form-label-group">
+                <input placeholder="请输入邮箱地址" class="form-control" name="email" type="email" required="">
+                <small id="passwordHelpBlock" class="form-text text-muted">
+                    稍后请登录邮箱重置密码。
+                </small>
+            </div>
+            {# 图片验证码 #}
+            <div class="form-label-group">
+                <div class="captcha-wrapper">{{ form.captcha }}</div>
+            </div>
+
+            <button class="btn btn-lg btn-success btn-block" type="submit">重置密码</button>
+
+            {% csrf_token %}
+        </form>
+        <div class="clearfix " style="width: 100%;max-width: 420px;padding: 15px;margin: auto;">
+            <p class="float-left"><a class="btn btn-outline-success my-2 my-sm-0 ml-lg-0" href="{% url 'article:list' %}">回到首页</a></p>
+            <p class="float-right">
+                <a class="btn btn-outline-success my-2 my-sm-0 ml-lg-0" href="{% url 'user:login' %}">登录</a>
+                <a class="btn btn-outline-success my-2 my-sm-0 ml-lg-0" href="{% url 'user:register' %}">注册</a>
+            </p>
+        </div>
+    </div>
+
+{% endblock %}
+</body>
+</html>

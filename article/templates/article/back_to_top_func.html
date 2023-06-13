@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>回到顶部</title>
+</head>
+<body>
+
+<button type="button" id="BackTop" class="toTop-arrow" style="z-index: 100;"></button>
+
+<script>
+   $(document).ready(function() {
+        // 滚动窗口来判断按钮显示或隐藏
+        $(window).scroll(function() {
+            if ($(this).scrollTop() > 150) {
+                $('.back-to-top').fadeIn(100);
+            } else {
+                $('.back-to-top').fadeOut(100);
+            }
+        });
+
+        // jQuery实现动画滚动
+        $('.back-to-top').click(function(event) {
+            event.preventDefault();
+            $('html, body').animate({scrollTop: 0}, 500);
+        })
+    });
+</script>
+
+<style>
+.back-to-top {
+    position: fixed;
+    bottom: 3em;
+    right: 3em;
+    text-decoration: none;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: 12px;
+    padding: 1em;
+    display: none;
+    border-radius: 3px;
+    border: 1px solid #CCCCCC;
+}
+
+.back-to-top:hover {
+    background-color: rgba(0, 0, 0, 0.3);
+}
+</style>
+
+</body>
+</html>

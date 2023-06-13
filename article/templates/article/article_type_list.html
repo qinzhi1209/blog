@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<!-- extends表明此页面继承自 base.html 文件 -->
+{% extends "article/base.html" %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>文章列表</title>
+</head>
+<body>
+<!-- 写入 base.html 中定义的 title -->
+{% block title %}
+    首页
+{% endblock title %}
+
+<!-- 写入 base.html 中定义的 content -->
+{% block content %}
+<!-- 定义放置文章标题的div容器 -->
+<!-- 定义放置文章标题的div容器 -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+    {% for article in articles_type %}
+    <div class="row mt-2">
+        <!-- 文章内容 -->
+        <div class="col-sm-12">
+            <!-- 卡片容器 -->
+            <div class="card h-100">
+                <!-- 标题 -->
+                <!-- 摘要 -->
+               <div class="card-body">
+                    <h4 class="card-title">{{ article.title }}</h4>
+                    <p class="card-text">{{ article.body|slice:'100' }}...</p>
+                    <a href="{% url 'article:article-detail' article.id %}"  class="btn btn-outline-dark my-2 my-sm-0 ml-lg-0">阅读本文</a>
+                    <!-- 这里增加阅读量和图标 -->
+                        <small class="col align-self-end" style="color: gray;">
+                            <span>
+                                <i class="fas fa-clock" style="color: pink;"></i>
+                                {{ article.created|date:'Y-m-d' }}&nbsp;&nbsp;
+                            </span>
+                            <span>
+                                <i class="fas fa-comments" style="color: yellowgreen;"></i>
+                                <!-- 修改为评论的计数 -->
+                                {{ article.comments.count }}&nbsp;&nbsp;
+                            </span>
+                            <span class="fas fa-eye" >
+                            {{ article.total_views }}
+                            </span>
+                            &nbsp
+                            <a>文章类型: {{article.article_type}}</a>
+                        </small>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+        <br>
+        <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center my-3 pagination-lg">
+        {% if articles_type.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ articles_type.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">上一页</span>
+                </a>
+            </li>
+        {% endif %}
+        {% for page in articles_type.paginator.page_range %}
+            {% if articles_type.number == page %}
+                <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+            {% else %}
+                <li class="page-item"><a class="page-link" href="?page={{ page }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+        {% if articles_type.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ articles_type.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}{% if request.GET.order %}&order={{ request.GET.order }}{% endif %}" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">下一页</span>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</nav>
+
+
+</div>
+{#</div>#}
+{% endblock content %}
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,50 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>个人博客</title>
+    <meta name="description" content="基于django的博客"/>
+    <meta name="keywords" content="django,python"/>
+    <script src="{% static 'article/js/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'article/js/jquery.form.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'article/css/font-awesome.css' %}">
+    <link rel="stylesheet" href="{% static 'article/css/bootstrap.css' %}">
+    <script src="{% static 'article/js/bootstrap.bundle.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'article/css/blog.css' %}">
+    <link rel="stylesheet" href="{% static 'article/css/hover-min.css' %}">
+    <script src="{% static 'article/js/blog.js' %}"></script>
+    {#  有的页面有自己要加载的静态文件   #}
+    {% block other_static_file %}
+    {% endblock %}
+</head>
+<body class="animated">
+{#头部内容#}
+<header>
+    {% include 'article/header.html' %}
+</header>
+
+<!-- 预留具体页面的位置 -->
+{% block content %}
+
+{% endblock content %}
+
+{#页面主内容#}
+<main role="main">
+
+    {% block main %}
+    {% endblock %}
+
+</main>
+
+{#底部内容#}
+<footer>
+    {% include 'article/footer.html' %}
+</footer>
+<script type="text/javascript" src="{% static 'article/js/sakura.js' %}"></script>
+<script type="text/javascript" src="{% static 'article/js/commentTyping.js' %}"></script>
+<script src="{% static 'article/js/sweetalert.js' %}"></script>
+<script src="{% static 'article/js/zh-cn-tw.js' %}"></script>
+</body>
+</html>
